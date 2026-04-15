@@ -1,0 +1,464 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfect Fit - Virtual Sizing &amp; Shopping</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* added 1--26, style completed -26 */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+          sans-serif;
+        line-height: 1.6;
+        background: var(--wt-cream);
+        padding-top: 90px;
+      }
+
+      /* Hero Section */
+      .hero {
+        background: var(--grad-pg);
+        color: var(--wt-light);
+        padding: 100px 20px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>');
+        opacity: 0.3;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        line-height: 1.2;
+      }
+
+      .hero p {
+        font-size: 1.3rem;
+        margin-bottom: 40px;
+        opacity: 0.95;
+      }
+
+      .cta-button {
+        display: inline-block;
+        background: var(--wt-light);
+        color: var(--text-primary);
+        padding: 18px 40px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Features Section */
+      .features {
+        padding: 80px 20px;
+        background: var(--wt-cream);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+        margin-top: 50px;
+      }
+
+      .feature-card {
+        background: var(--wt-light);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(92, 75, 111, 0.12);
+        transition: transform 0.3s, box-shadow 0.3s;
+        border: 2px solid var(--border-primary);
+      }
+
+      .feature-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--grad-pg);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin-bottom: 20px;
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: var(--text-primary);
+      }
+
+      .feature-card p {
+        color: var(--text-secondary);
+        line-height: 1.7;
+      }
+
+      /* Main Features Showcase */
+      .showcase {
+        padding: 80px 20px;
+      }
+
+      .showcase-item {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        margin-bottom: 100px;
+      }
+
+      .showcase-item:nth-child(even) {
+        direction: rtl;
+      }
+
+      .showcase-item:nth-child(even) > * {
+        direction: ltr;
+      }
+
+      .showcase-visual {
+        border-radius: 20px;
+        padding: 60px 40px;
+        text-align: center;
+        color: var(--wt-light);
+        min-height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: 0 20px 60px rgba(92, 75, 111, 0.3);
+      }
+
+      .showcase-visual.sizing {
+        background: var(--grad-gp);
+      }
+
+      .measurement-icon {
+        font-size: 5rem;
+        margin-bottom: 20px;
+      }
+
+      .avatar-icon {
+        font-size: 5rem;
+        margin-bottom: 20px;
+      }
+
+      .showcase-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: var(--text-primary);
+      }
+
+      .showcase-content p {
+        font-size: 1.1rem;
+        color: var(--text-seondary);
+        margin-bottom: 30px;
+        line-height: 1.8;
+      }
+
+      .secondary-button {
+        display: inline-block;
+        background: var(--grad-gp);
+        color: var(--wt-light);
+        padding: 15px 35px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.2s;
+      }
+
+      .secondary-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(92, 75, 111, 0.3);
+      }
+
+      /* How It Works */
+      .how-it-works {
+        padding: 80px 20px;
+        text-align: center;
+      }
+
+      .how-it-works h2 {
+        font-size: 2.5rem;
+        margin-bottom: 60px;
+        color: var(--text-primary);
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .step {
+        position: relative;
+      }
+
+      .step-number {
+        width: 60px;
+        height: 60px;
+        background: var(--grad-pg);
+        color: var(--wt-light);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 0 auto 20px;
+      }
+
+      .step h3 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        color: var(--text-primary);
+      }
+
+      .step p {
+        color: var(--text-secondary);
+      }
+
+      /* Final CTA */
+      .final-cta {
+        background: var(--grad-gp);
+        color: var(--wt-light);
+        padding: 100px 20px;
+        text-align: center;
+      }
+
+      .final-cta h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .final-cta p {
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+        opacity: 0.95;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .primary-cta {
+        background: var(--wt-light);
+        color: var(--text-primary);
+        padding: 18px 40px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: transform 0.2s;
+      }
+
+      .primary-cta:hover {
+        transform: translateY(-2px);
+      }
+
+      .secondary-cta {
+        background: transparent;
+        color: var(--wt-light);
+        padding: 18px 40px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        border: 2px solid var(--wt-light);
+        transition: all 0.2s;
+      }
+
+      .secondary-cta:hover {
+        background: var(--wt-light);
+        color: var(--text-primary);
+        transform: translateY(-2px);
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .showcase-item {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+
+        .showcase-item:nth-child(even) {
+          direction: ltr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">PerfectFit</div>
+      <div class="user-info">
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="Main/MeasureUp.html">Measure Up</a>
+          <a href="Main/Browse.html">Browse</a>
+          <a href="Main/Closet.html">Closet</a>
+          <div class="user-avatar"></div>
+          <a href="main/Login.html">Login</a>
+        </nav>
+      </div>
+    </div>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Find Your Perfect Fit.<br />Every Single Time.</h1>
+        <p>
+          Enter your measurements once, and we'll tell you exactly what size to
+          order—no more guessing, no more returns.
+        </p>
+        <a href="MeasureUp.html" class="cta-button">Get My Size Now</a>
+      </div>
+    </section>
+
+    <!-- Quick Benefits -->
+    <section class="features">
+      <div class="container">
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon">📏</div>
+            <h3>Accurate Recommendations</h3>
+            <p>
+              Our algorithm analyzes fit across thousands of items to give you
+              perfect size matches.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">✨</div>
+            <h3>Zero Guesswork</h3>
+            <p>
+              Know your size before you buy. No more ordering multiple sizes
+              "just in case."
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>Fewer Returns</h3>
+            <p>
+              Get it right the first time, every time. Save time, money, and
+              hassle.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Features Showcase -->
+    <section class="showcase">
+      <div class="container">
+        <!-- Smart Sizing Feature -->
+        <div class="showcase-item">
+          <div class="showcase-visual sizing">
+            <div class="measurement-icon">📐</div>
+            <h3 style="font-size: 2rem; margin-bottom: 15px">
+              Smart Sizing Tool
+            </h3>
+            <p style="font-size: 1.1rem; opacity: 0.95">
+              Input measurements → Get perfect size
+            </p>
+          </div>
+          <div class="showcase-content">
+            <h2>Say Goodbye to Size Confusion</h2>
+            <p>
+              We've all been there—ordering a medium in one brand, a large in
+              another, and still ending up with clothes that don't fit. Not
+              anymore.
+            </p>
+            <p>
+              Just input your measurements once, select any item from our
+              collection, and our smart sizing tool instantly tells you which
+              size will fit you best.
+            </p>
+            <a href="MeasureUp.html" class="secondary-button"
+              >Try Size Finder</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+      <div class="container">
+        <h2>Three Steps to Shopping Bliss</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Measure Up</h3>
+            <p>
+              Enter your measurements in under a minute. We'll save them so you
+              never have to do it again.
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>Shop Your Way</h3>
+            <p>
+              Browse our collection the traditional way, or filter to shop from
+              certain companies.
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>Get the Perfect Fit</h3>
+            <p>
+              Every item shows your recommended size. Click, order on retailer's
+              website, and wait for clothes that actually fit.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+      <h2>Ready to Never Worry About Sizing Again?</h2>
+      <p>
+        Join thousands of shoppers who've ditched the sizing guessing game for
+        good.
+      </p>
+      <div class="button-group">
+        <a href="Login.html" class="primary-cta">Find My Perfect Fit</a>
+        <a href="Browse.html" class="secondary-cta">Start Shopping</a>
+      </div>
+    </section>
+  </body>
+</html>

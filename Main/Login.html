@@ -1,0 +1,418 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Perfect Fit</title>
+    <link rel="stylesheet" type="text/css" href="../styles.css" />
+    <style>
+      /* added -26, style completed -26 */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+          sans-serif;
+        background: var(--wt-cream);
+        padding-top: 250px;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .login-container {
+        max-width: 450px;
+        width: 100%;
+      }
+
+      .logo {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .logo h1 {
+        font-size: 2.5rem;
+        background: var(--grad-pg);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .logo p {
+        color: #6b4836;
+        margin-top: 8px;
+      }
+
+      .login-card {
+        background: var(--wt-light);
+        border-radius: 24px;
+        padding: 50px 40px;
+        box-shadow: 0 10px 40px rgba(92, 75, 111, 0.15);
+        border: 2px solid rgba(92, 75, 111, 0.1);
+      }
+
+      .tab-switcher {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        background: var(--wt-cream);
+        padding: 6px;
+        border-radius: 12px;
+      }
+
+      .tab {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        background: transparent;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        color: var(--text-secondary);
+      }
+
+      .tab.active {
+        background: var(--wt-light);
+        color: var(--text-primary);
+        box-shadow: 0 2px 8px rgba(92, 75, 111, 0.1);
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      .input-group label {
+        display: block;
+        color: var(--text-primary);
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .input-field {
+        width: 100%;
+        padding: 14px 18px;
+        border: 2px solid var(--border-primary);
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s;
+        background: var(--wt-light);
+        color: var(--text-secondary);
+      }
+
+      .input-field:focus {
+        outline: none;
+        border-color: var(--color-g);
+        background: var(--wt-cream);
+        box-shadow: 0 0 0 3px rgba(92, 75, 111, 0.1);
+      }
+
+      .forgot-password {
+        text-align: right;
+        margin-bottom: 25px;
+      }
+
+      .forgot-password a {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .forgot-password a:hover {
+        text-decoration: underline;
+      }
+
+      .login-button {
+        width: 100%;
+        padding: 16px;
+        background: var(--grad-pg);
+        color: var(--wt-light);
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-bottom: 20px;
+      }
+
+      .login-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(92, 75, 111, 0.3);
+      }
+
+      .divider {
+        text-align: center;
+        margin: 30px 0;
+        position: relative;
+      }
+
+      .divider::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--wt-light);
+      }
+
+      .divider span {
+        background: var(--wt-light);
+        padding: 0 15px;
+        color: var(text-secondary);
+        position: relative;
+        font-size: 0.9rem;
+      }
+
+      /* Profile Switcher */
+      .profiles-section h3 {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .profile-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .profile-card {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px;
+        background: var(--wt-light);
+        border: 2px solid var(--border-primary);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .profile-card:hover {
+        border: 2px solid var(--color-p);
+        background: var(--wt-cream);
+        transform: translateX(5px);
+      }
+
+      .profile-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--grad-pg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--wt-light);
+        font-weight: 700;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+      }
+
+      .profile-info {
+        flex: 1;
+      }
+
+      .profile-name {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 3px;
+      }
+
+      .profile-email {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      .profile-arrow {
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+      }
+
+      .add-profile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 15px;
+        background: transparent;
+        border: 2px dashed var(--border-primary);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s;
+        color: var(--text-secondary);
+        font-weight: 600;
+      }
+
+      .add-profile:hover {
+        background: var(--wt-cream);
+      }
+
+      .signup-link {
+        text-align: center;
+        margin-top: 20px;
+        color: var(--text-secondary);
+      }
+
+      .signup-link a {
+        color: var(--color-p);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .signup-link a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 480px) {
+        .login-card {
+          padding: 40px 25px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">PerfectFit</div>
+      <div class="user-info">
+        <nav>
+          <a href="../index.html">Home</a>
+          <a href="MeasureUp.html">Measure Up</a>
+          <a href="Browse.html">Browse</a>
+          <a href="Closet.html">Closet</a>
+          <div class="user-avatar"></div>
+          <a href="Login.html">Login</a>
+        </nav>
+      </div>
+    </div>
+    <div class="login-container">
+      <div class="logo">
+        <p>Find your perfect size, every time</p>
+      </div>
+
+      <div class="login-card">
+        <!-- Tab Switcher -->
+        <div class="tab-switcher">
+          <button class="tab active" onclick="switchTab('login')">Login</button>
+          <button class="tab" onclick="switchTab('profiles')">
+            My Profiles
+          </button>
+        </div>
+
+        <!-- Login Form -->
+        <div class="tab-content active" id="login-tab">
+          <form>
+            <div class="input-group">
+              <label for="email">Email or Username</label>
+              <input
+                type="text"
+                id="email"
+                class="input-field"
+                placeholder="john@example.com"
+                autocomplete="email"
+              />
+            </div>
+
+            <div class="input-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                class="input-field"
+                placeholder="••••••••"
+                autocomplete="current-password"
+              />
+            </div>
+
+            <div class="forgot-password">
+              <a href="#">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="login-button">Sign In</button>
+          </form>
+
+          <div class="signup-link">
+            Don't have an account? <a href="SignUp.html">Sign up</a>
+          </div>
+        </div>
+
+        <!-- Profile Switcher -->
+        <div class="tab-content" id="profiles-tab">
+          <div class="profiles-section">
+            <h3>Choose a profile to continue</h3>
+
+            <div class="profile-list">
+              <div class="profile-card" onclick="selectProfile('John Doe')">
+                <div class="profile-avatar">JD</div>
+                <div class="profile-info">
+                  <div class="profile-name">John Doe</div>
+                  <div class="profile-email"></div>
+                </div>
+                <div class="profile-arrow">→</div>
+              </div>
+
+              <div class="profile-card" onclick="selectProfile('Sarah Smith')">
+                <div class="profile-avatar">SS</div>
+                <div class="profile-info">
+                  <div class="profile-name">Sarah Doe</div>
+                  <div class="profile-email"></div>
+                </div>
+                <div class="profile-arrow">→</div>
+              </div>
+
+              <div class="profile-card" onclick="selectProfile('Mike Johnson')">
+                <div class="profile-avatar">MJ</div>
+                <div class="profile-info">
+                  <div class="profile-name">Mike Johnson</div>
+                  <div class="profile-email"></div>
+                </div>
+                <div class="profile-arrow">→</div>
+              </div>
+
+              <div class="add-profile" onclick="switchTab('login')">
+                <span style="font-size: 1.5rem">+</span>
+                <span>Add New Profile</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function switchTab(tabName) {
+        // Update tabs
+        document.querySelectorAll(".tab").forEach((tab) => {
+          tab.classList.remove("active");
+        });
+        event.target.classList.add("active");
+
+        // Update content
+        document.querySelectorAll(".tab-content").forEach((content) => {
+          content.classList.remove("active");
+        });
+        document.getElementById(tabName + "-tab").classList.add("active");
+      }
+
+      function selectProfile(name) {
+        alert("Logging in as " + name);
+        // In a real app, this would handle the profile selection
+      }
+
+      // Prevent form submission for demo
+      document.querySelector("form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        alert("Login functionality would be implemented here!");
+      });
+    </script>
+  </body>
+</html>

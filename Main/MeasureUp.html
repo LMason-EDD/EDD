@@ -1,0 +1,580 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Find Your Perfect Size - Measurement Input</title>
+    <link rel="stylesheet" type="text/css" href="../styles.css" />
+    <style>
+      /* added -26, style completed -26 */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+          sans-serif;
+        background: var(--grad-gp);
+        min-height: 100vh;
+        padding-top: 150px;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .lead {
+        text-align: center;
+        color: var(--wt-light);
+        margin-bottom: 40px;
+      }
+
+      .lead h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      .lead p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
+
+      .progress-bar {
+        background: rgba(254, 252, 242, 0.2);
+        border-radius: 50px;
+        height: 8px;
+        margin-bottom: 40px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        background: var(--wt-light);
+        height: 100%;
+        width: 60%;
+        border-radius: 50px;
+        transition: width 0.3s ease;
+      }
+
+      .card {
+        background: var(--wt-cream);
+        border-radius: 24px;
+        padding: 50px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+
+      .measurement-grid {
+        display: grid;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .input-group {
+        position: relative;
+      }
+
+      .input-group label {
+        display: block;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 10px;
+        font-size: 1rem;
+      }
+
+      .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .input-field {
+        flex: 1;
+        padding: 16px 20px;
+        border: 2px solid var(--border-primary);
+        border-radius: 12px;
+        font-size: 1.1rem;
+        transition: all 0.3s;
+        background: var(--wt-light);
+      }
+
+      .input-field:focus {
+        outline: none;
+        border-color: var(--color-g);
+        background: var(--wt-light);
+        box-shadow: 0 0 0 3px rgba(43, 140, 95, 0.15);
+      }
+
+      .unit-toggle {
+        display: flex;
+        background: var(--wt-cream);
+        border: 2px solid var(--border-primary);
+        border-radius: 10px;
+        padding: 4px;
+      }
+
+      .unit-option {
+        padding: 8px 16px;
+        border: none;
+        background: transparent;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: var(--text-secondary);
+      }
+
+      .unit-option.active {
+        background: var(--wt-light);
+        color: var(--text-primary);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .help-icon {
+        width: 24px;
+        height: 24px;
+        background: var(--wt-light);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: var(--text-primary);
+        margin-left: 8px;
+        transition: all 0.2s;
+      }
+
+      .help-icon:hover {
+        background: var(--color-g);
+        color: var(--wt-light);
+      }
+
+      .tooltip {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--wt-light);
+        color: var(--wt-light);
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+        margin-bottom: 8px;
+        z-index: 10;
+      }
+
+      .tooltip::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 6px solid transparent;
+        border-top-color: var(--border-primary);
+      }
+
+      .help-icon:hover + .tooltip {
+        opacity: 1;
+      }
+
+      .visual-guide {
+        background: var(--grad-pg);
+        border-radius: 16px;
+        padding: 30px;
+        text-align: center;
+        color: var(--wt-light);
+        margin-bottom: 40px;
+      }
+
+      .avatar-preview {
+        width: 200px;
+        height: 300px;
+        margin: 0 auto 20px;
+        background: rgba(254, 252, 242, 0.2);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 6rem;
+        border: 3px dashed rgba(254, 252, 242, 0.5);
+      }
+
+      .guide-text {
+        font-size: 0.95rem;
+        opacity: 0.95;
+      }
+
+      .two-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .gender-select {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .gender-option {
+        flex: 1;
+        padding: 20px;
+        border: 2px solid var(--border-primary);
+        border-radius: 12px;
+        background: var(--wt-light);
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .gender-option:hover {
+        border-color: var(--color-p);
+        background: var(--wt-light);
+      }
+
+      .gender-option.selected {
+        border-color: var(--color-p);
+        background: var(--color-p);
+        color: var(--wt-light);
+      }
+
+      .gender-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 40px;
+      }
+
+      .btn {
+        flex: 1;
+        padding: 18px 30px;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background: var(--grad-pg);
+        color: var(--wt-light);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(43, 140, 95, 0.5);
+      }
+
+      .btn-secondary {
+        background: var(--wt-light);
+        color: var(--text-primary);
+        border: 2px solid var(--border-primary);
+      }
+
+      .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(126, 79, 140, 0.5);
+      }
+
+      .privacy-note {
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .privacy-icon {
+        font-size: 1.2rem;
+      }
+
+      @media (max-width: 768px) {
+        .card {
+          padding: 30px 20px;
+        }
+
+        .two-column {
+          grid-template-columns: 1fr;
+        }
+
+        .header h1 {
+          font-size: 2rem;
+        }
+
+        .button-group {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">PerfectFit</div>
+      <div class="user-info">
+        <nav>
+          <a href="../index.html">Home</a>
+          <a href="MeasureUp.html">Measure Up</a>
+          <a href="Browse.html">Browse</a>
+          <a href="Closet.html">Closet</a>
+          <div class="user-avatar"></div>
+          <a href="Login.html">Login</a>
+        </nav>
+      </div>
+    </div>
+    <div class="container">
+      <div class="lead">
+        <h1>Let's Find Your Perfect Size</h1>
+        <p>Enter your measurements once, and we'll remember them forever</p>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: 20%"></div>
+      </div>
+
+      <div class="card">
+        <!-- Gender Selection -->
+        <div class="gender-select">
+          <div class="gender-option" onclick="selectGender(this)">
+            <div class="gender-icon">👔</div>
+            <div>Men's</div>
+          </div>
+          <div class="gender-option selected" onclick="selectGender(this)">
+            <div class="gender-icon">👗</div>
+            <div>Women's</div>
+          </div>
+          <div class="gender-option" onclick="selectGender(this)">
+            <div class="gender-icon">✨</div>
+            <div>Unisex</div>
+          </div>
+        </div>
+
+        <!-- Visual Guide -->
+        <div class="visual-guide">
+          <div class="avatar-preview">👤</div>
+          <div class="guide-text">
+            💡 <strong>Pro tip:</strong> Measure yourself while wearing fitted
+            clothing for the most accurate results
+          </div>
+        </div>
+
+        <!-- Measurement Inputs -->
+        <div class="measurement-grid">
+          <!-- Height -->
+          <div class="input-group">
+            <label>
+              Height
+              <span class="help-icon" style="position: relative">
+                ?
+                <span class="tooltip"
+                  >Stand straight against a wall and measure from floor to top
+                  of head</span
+                >
+              </span>
+            </label>
+            <div class="input-wrapper">
+              <input
+                type="number"
+                class="input-field"
+                placeholder="5"
+                id="heightFeet"
+              />
+              <span style="color: #513629; font-weight: 600">ft</span>
+              <input
+                type="number"
+                class="input-field"
+                placeholder="10"
+                id="heightInches"
+              />
+              <span style="color: #513629; font-weight: 600">in</span>
+              <div class="unit-toggle">
+                <button class="unit-option active">Imperial</button>
+                <button class="unit-option">Metric</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weight -->
+          <div class="input-group">
+            <label>
+              Weight
+              <span class="help-icon" style="position: relative">
+                ?
+                <span class="tooltip"
+                  >Your current weight helps us recommend the best fit</span
+                >
+              </span>
+            </label>
+            <div class="input-wrapper">
+              <input
+                type="number"
+                class="input-field"
+                placeholder="165"
+                id="weight"
+              />
+              <div class="unit-toggle">
+                <button class="unit-option active">lbs</button>
+                <button class="unit-option">kg</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Two Column Layout for Body Measurements -->
+          <div class="two-column">
+            <!-- Chest/Bust -->
+            <div class="input-group">
+              <label>
+                Chest
+                <span class="help-icon" style="position: relative">
+                  ?
+                  <span class="tooltip"
+                    >Measure around the fullest part of your chest</span
+                  >
+                </span>
+              </label>
+              <div class="input-wrapper">
+                <input
+                  type="number"
+                  class="input-field"
+                  placeholder="38"
+                  id="chest"
+                />
+                <span style="color: #513629; font-weight: 600">in</span>
+              </div>
+            </div>
+
+            <!-- Waist -->
+            <div class="input-group">
+              <label>
+                Waist
+                <span class="help-icon" style="position: relative">
+                  ?
+                  <span class="tooltip"
+                    >Measure around your natural waistline</span
+                  >
+                </span>
+              </label>
+              <div class="input-wrapper">
+                <input
+                  type="number"
+                  class="input-field"
+                  placeholder="32"
+                  id="waist"
+                />
+                <span style="color: #513629; font-weight: 600">in</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="two-column">
+            <!-- Hips -->
+            <div class="input-group">
+              <label>
+                Hips
+                <span class="help-icon" style="position: relative">
+                  ?
+                  <span class="tooltip"
+                    >Measure around the fullest part of your hips</span
+                  >
+                </span>
+              </label>
+              <div class="input-wrapper">
+                <input
+                  type="number"
+                  class="input-field"
+                  placeholder="40"
+                  id="hips"
+                />
+                <span style="color: #513629; font-weight: 600">in</span>
+              </div>
+            </div>
+
+            <!-- Inseam -->
+            <div class="input-group">
+              <label>
+                Inseam
+                <span class="help-icon" style="position: relative">
+                  ?
+                  <span class="tooltip"
+                    >Measure from crotch to ankle along the inside of your
+                    leg</span
+                  >
+                </span>
+              </label>
+              <div class="input-wrapper">
+                <input
+                  type="number"
+                  class="input-field"
+                  placeholder="30"
+                  id="inseam"
+                />
+                <span style="color: #513629; font-weight: 600">in</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="button-group">
+          <button class="btn btn-secondary">Save for Later</button>
+          <button class="btn btn-primary">Find My Size →</button>
+        </div>
+
+        <!-- Privacy Note -->
+        <div class="privacy-note">
+          <span class="privacy-icon">🔒</span>
+          <span
+            >Your measurements are private and secure. We never share this
+            information.</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function selectGender(element) {
+        // Remove selected class from all options
+        document.querySelectorAll(".gender-option").forEach((option) => {
+          option.classList.remove("selected");
+        });
+        // Add selected class to clicked option
+        element.classList.add("selected");
+      }
+
+      // Toggle unit buttons
+      document.querySelectorAll(".unit-toggle").forEach((toggle) => {
+        toggle.addEventListener("click", (e) => {
+          if (e.target.classList.contains("unit-option")) {
+            toggle.querySelectorAll(".unit-option").forEach((btn) => {
+              btn.classList.remove("active");
+            });
+            e.target.classList.add("active");
+          }
+        });
+      });
+
+      // Simulate progress bar update on input
+      const inputs = document.querySelectorAll(".input-field");
+      const progressBar = document.querySelector(".progress-fill");
+
+      inputs.forEach((input) => {
+        input.addEventListener("input", () => {
+          const filledInputs = Array.from(inputs).filter(
+            (i) => i.value !== ""
+          ).length;
+          const progress = (filledInputs / inputs.length) * 100;
+          progressBar.style.width = Math.max(20, progress) + "%";
+        });
+      });
+    </script>
+  </body>
+</html>

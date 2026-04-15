@@ -1,0 +1,733 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop - Your Perfect Fit</title>
+    <link rel="stylesheet" type="text/css" href="../styles.css" />
+    <style>
+      /* added 2-2-26, style completed -26 */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+          sans-serif;
+        background: var(--grad-pg);
+        color: var(--text-primary);
+        padding-top: 100px;
+      }
+
+      /* Main Layout */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+      }
+
+      /* Product Card */
+      .product-card {
+        background: var(--wt-cream);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s;
+      }
+
+      .product-image {
+        width: 100%;
+        height: 400px;
+        background: var(--wt-cream);
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* SVG Clothing Items */
+      .product-image svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: var(--color-g);
+        color: var(--wt-light);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .product-info {
+        padding: 25px;
+      }
+
+      .product-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--text-primary);
+      }
+
+      .product-description {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+      }
+
+      .price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 20px;
+      }
+
+      /* Size Recommendation */
+      .size-recommendation {
+        background: var(--wt-light);
+        border: 2px solid var(--border-primary);
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+
+      .size-recommendation-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .check-icon {
+        width: 24px;
+        height: 24px;
+        background: var(--color-g);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--wt-light);
+        font-weight: bold;
+      }
+
+      .size-recommendation-text {
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 1rem;
+      }
+
+      .recommended-size {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--color-p);
+        text-align: center;
+        margin: 10px 0;
+      }
+
+      .confidence {
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      /* Size Selector */
+      .size-selector {
+        margin-bottom: 20px;
+      }
+
+      .size-selector-label {
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: block;
+        color: var(--text-primary);
+      }
+
+      .size-options {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .size-option {
+        padding: 12px 20px;
+        border: 2px solid var(--border-primary);
+        border-radius: 10px;
+        background: var(--wt-light);
+        cursor: pointer;
+        transition: all 0.2s;
+        font-weight: 600;
+        position: relative;
+      }
+
+      .size-option:hover {
+        border-color: var(--color-p);
+      }
+
+      .size-option.recommended {
+        border-color: var(--color-g);
+        background: var(--wt-light);
+        color: var(--color-g);
+      }
+
+      .size-option.selected {
+        border-color: var(--color-p);
+        background: var(--color-p);
+        color: var(--wt-light);
+      }
+
+      /* Add to Closet Button */
+      .add-to-cart {
+        width: 100%;
+        padding: 16px;
+        margin: 5px;
+        background: var(--color-g);
+        color: var(--wt-light);
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .add-to-cart:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      }
+      .try-on {
+        width: 100%;
+        padding: 16px;
+        margin: 5px;
+        background: var(--color-p);
+        color: var(--wt-light);
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .try-on:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      /* Filter Bar */
+      .filter-bar {
+        background: var(--wt-light);
+        padding: 20px 30px;
+        border-radius: 16px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 20px rgba(92, 75, 111, 0.12);
+        border: 2px solid rgba(92, 75, 111, 0.1);
+      }
+
+      .filter-section {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .filter-label {
+        font-weight: 700;
+        color: var(--text-primary);
+        font-size: 1rem;
+      }
+
+      .filter-chips {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .filter-chip {
+        padding: 10px 20px;
+        background: var(--wt-cream);
+        border: 2px solid var(--border-secondary);
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 600;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+
+      .filter-chip:hover {
+        border-color: var(--color-g);
+        background: var(--wt-light);
+      }
+
+      .filter-chip.active {
+        background: var(--grad-pg);
+        color: var(--wt-light);
+        border-color: transparent;
+      }
+
+      @media (max-width: 768px) {
+        .product-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">PerfectFit</div>
+      <div class="user-info">
+        <nav>
+          <a href="../index.html">Home</a>
+          <a href="MeasureUp.html">Measure Up</a>
+          <a href="Browse.html">Browse</a>
+          <a href="Closet.html">Closet</a>
+          <div class="user-avatar"></div>
+          <a href="Login.html">Login</a>
+        </nav>
+      </div>
+    </div>
+    <div class="container">
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="filter-section">
+          <span class="filter-label">Category:</span>
+          <div class="filter-chips">
+            <button class="filter-chip active" onclick="filterProducts('all')">
+              All
+            </button>
+            <button class="filter-chip" onclick="filterProducts('shirts')">
+              Shirts
+            </button>
+            <button class="filter-chip" onclick="filterProducts('shorts')">
+              Shorts
+            </button>
+            <button class="filter-chip" onclick="filterProducts('pants')">
+              Pants
+            </button>
+            <button class="filter-chip" onclick="filterProducts('skirts')">
+              Skirts
+            </button>
+            <button class="filter-chip" onclick="filterProducts('sweaters')">
+              Sweaters
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Product Grid -->
+      <div class="product-grid">
+        <!-- High School Shorts -->
+        <div class="product-card">
+          <div
+            class="product-image"
+            style="
+              background: var(--wt-light);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <img
+              src="../Images/HsShorts.png"
+              alt="High School Shorts"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 16px 16px 0 0;
+              "
+            />
+            <div class="badge">Your Size: M</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Dry Fit Short - Men</h3>
+            <p class="product-description">The King's Academy</p>
+            <div class="price">$42.99 - $36.99</div>
+
+            <a
+              href="../Selected/Shorts.html"
+              class="size-recommendation"
+              style="text-decoration: none; display: block"
+            >
+              <div class="size-recommendation-header">
+                <div class="check-icon">✓</div>
+                <span class="size-recommendation-text"
+                  >Perfect Match Found!</span
+                >
+              </div>
+              <div class="recommended-size">MEDIUM</div>
+            </a>
+          </div>
+        </div>
+
+        <!-- High School Skirts -->
+        <div class="product-card">
+          <div
+            class="product-image"
+            style="
+              background: var(--wt-light);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <img
+              src="../Images/HsSkirtB.png"
+              alt="High School Skirts"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 16px 16px 0 0;
+              "
+            />
+            <div class="badge">Your Size: 32x30</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Elderwear High School Skort</h3>
+            <p class="product-description">The King's Academy</p>
+            <div class="price">$44.99 - $39.99</div>
+            <a
+              href="../Selected/SkirtB.html"
+              class="size-recommendation"
+              style="text-decoration: none; display: block"
+            >
+              <div class="size-recommendation-header">
+                <div class="check-icon">✓</div>
+                <span class="size-recommendation-text"
+                  >Perfect Match Found!</span
+                >
+              </div>
+              <div class="recommended-size">MEDIUM</div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Short Sleeve Polo -->
+        <div class="product-card">
+          <div
+            class="product-image"
+            style="
+              background: var(--wt-light);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <img
+              src="../Images/ShirtBF.png"
+              alt="Short Sleeve Dry Fit Polo"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 16px 16px 0 0;
+              "
+            />
+            <div class="badge">Your Size: M</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Elderwear Short Sleeve Dry Fit Polo</h3>
+            <p class="product-description">The King's Academy</p>
+            <div class="price">$36.99 - $32.99</div>
+            <a
+              href="../Selected/TKAShirt.html"
+              class="size-recommendation"
+              style="text-decoration: none; display: block"
+            >
+              <div class="size-recommendation-header">
+                <div class="check-icon">✓</div>
+                <span class="size-recommendation-text"
+                  >Perfect Match Found!</span
+                >
+              </div>
+              <div class="recommended-size">MEDIUM</div>
+            </a>
+          </div>
+        </div>
+
+        <!-- HeatGear® Compression -->
+        <div class="product-card">
+          <div
+            class="product-image"
+            style="
+              background: var(--wt-light);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <img
+              src="../Images/UAShirtComp.png"
+              alt="Under Armour Mens Compression Shirt"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 16px 16px 0 0;
+              "
+            />
+            <div class="badge">Your Size: M</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">
+              HeatGear® Men's Compression Short Sleeve
+            </h3>
+            <p class="product-description">Under Armour</p>
+            <div class="price">$30</div>
+
+            <a
+              href="../Selected/UAComp.html"
+              class="size-recommendation"
+              style="text-decoration: none; display: block"
+            >
+              <div class="size-recommendation-header">
+                <div class="check-icon">✓</div>
+                <span class="size-recommendation-text"
+                  >Perfect Match Found!</span
+                >
+              </div>
+              <div class="recommended-size">MEDIUM</div>
+            </a>
+          </div>
+        </div>
+
+        <!-- HeatGear® Fitted -->
+        <div class="product-card">
+          <div
+            class="product-image"
+            style="
+              background: var(--wt-light);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <img
+              src="../Images/UAShirtFit.png"
+              alt="Under Armour Mens Fitted Shirt"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 16px 16px 0 0;
+              "
+            />
+            <div class="badge">Your Size: M</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">HeatGear® Fitted Men's Short Sleeve</h3>
+            <p class="product-description">Under Armour</p>
+            <div class="price">$35</div>
+
+            <a
+              href="../Selected/UAFitted.html"
+              class="size-recommendation"
+              style="text-decoration: none; display: block"
+            >
+              <div class="size-recommendation-header">
+                <div class="check-icon">✓</div>
+                <span class="size-recommendation-text"
+                  >Perfect Match Found!</span
+                >
+              </div>
+              <div class="recommended-size">MEDIUM</div>
+            </a>
+          </div>
+        </div>
+
+        <!-- UA Tech™ 2.0 -->
+        <div class="product-card">
+          <div
+            class="product-image"
+            style="
+              background: var(--wt-light);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <img
+              src="../Images/UAShirtLoose.png"
+              alt="Under Armour Mens Compression Shirt"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 16px 16px 0 0;
+              "
+            />
+            <div class="badge">Your Size: M</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">UA Tech™ 2.0</h3>
+            <p class="product-description">Under Armour</p>
+            <div class="price">$42.99</div>
+            <a
+              href="../Selected/UALoose.html"
+              class="size-recommendation"
+              style="text-decoration: none; display: block"
+            >
+              <div class="size-recommendation-header">
+                <div class="check-icon">✓</div>
+                <span class="size-recommendation-text"
+                  >Perfect Match Found!</span
+                >
+              </div>
+              <div class="recommended-size">MEDIUM</div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Adidas Shirt -->
+        <div class="product-card">
+          <div
+            class="product-image"
+            style="
+              background: var(--wt-light);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <img
+              src="../Images/AdidasShirt.png"
+              alt="Workout Essentials Feelready T-Shirt"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 16px 16px 0 0;
+              "
+            />
+            <div class="badge">Your Size: M</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Workout Essentials Feelready T-Shirt</h3>
+            <p class="product-description">Adidas</p>
+            <div class="price">$25</div>
+            <a
+              href="../Selected/AdidasShirt.html"
+              class="size-recommendation"
+              style="text-decoration: none; display: block"
+            >
+              <div class="size-recommendation-header">
+                <div class="check-icon">✓</div>
+                <span class="size-recommendation-text"
+                  >Perfect Match Found!</span
+                >
+              </div>
+              <div class="recommended-size">MEDIUM</div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Puma Shirt -->
+        <div class="product-card">
+          <div
+            class="product-image"
+            style="
+              background: var(--wt-light);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <img
+              src="../Images/PumaShirt.png"
+              alt="Manchester City x Year of the Horse"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 16px 16px 0 0;
+              "
+            />
+            <div class="badge">Your Size: M</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Manchester City x Year of the Horse</h3>
+            <p class="product-description">Puma</p>
+            <div class="price">$25</div>
+            <a
+              href="../Selected/PumaShirt.html"
+              class="size-recommendation"
+              style="text-decoration: none; display: block"
+            >
+              <div class="size-recommendation-header">
+                <div class="check-icon">✓</div>
+                <span class="size-recommendation-text"
+                  >Perfect Match Found!</span
+                >
+              </div>
+              <div class="recommended-size">MEDIUM</div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Nike Shirt -->
+        <div class="product-card">
+          <div
+            class="product-image"
+            style="
+              background: var(--wt-light);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <img
+              src="../Images/NikeShirt.png"
+              alt="Nike Stride"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 16px 16px 0 0;
+              "
+            />
+            <div class="badge">Your Size: M</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Nike Stride</h3>
+            <p class="product-description">Nike</p>
+            <div class="price">$70</div>
+            <a
+              href="../Selected/NikeShirt.html"
+              class="size-recommendation"
+              style="text-decoration: none; display: block"
+            >
+              <div class="size-recommendation-header">
+                <div class="check-icon">✓</div>
+                <span class="size-recommendation-text"
+                  >Perfect Match Found!</span
+                >
+              </div>
+              <div class="recommended-size">MEDIUM</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Size selector functionality
+      document.querySelectorAll(".size-option").forEach((option) => {
+        option.addEventListener("click", function () {
+          // Remove selected class from siblings
+          this.parentElement.querySelectorAll(".size-option").forEach((opt) => {
+            opt.classList.remove("selected");
+          });
+          // Add selected class to clicked option
+          this.classList.add("selected");
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Classic Cotton Tee - Perfect Fit</title>
+    <link rel="stylesheet" type="text/css" href="../styles.css" />
+    <style>
+      /* added 4-2-26, style completed  */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+          sans-serif;
+        background: var(--wt-cream);
+        color: var(--text-primary);
+        padding-top: 120px;
+      }
+
+      .back-btn {
+        padding: 10px 20px;
+        background: var(--wt-cream);
+        border: 2px solid var(--border-secondary);
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: all 0.3s;
+        margin: 55px;
+      }
+
+      .back-btn:hover {
+        border-color: var(--border-primary);
+        background: var(--wt-light);
+      }
+
+      /* Main Content */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 40px 60px;
+      }
+
+      .product-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        background: var(--wt-light);
+        padding: 50px;
+        border-radius: 24px;
+        box-shadow: 0 5px 30px rgba(92, 75, 111, 0.12);
+        border: 2px solid rgba(92, 75, 111, 0.1);
+      }
+
+      /* Image Section */
+      .image-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .main-image {
+        width: 100%;
+        height: 600px;
+        background: var(--wt-light);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15rem;
+      }
+
+      .thumbnail-gallery {
+        display: flex;
+        gap: 15px;
+      }
+
+      .thumbnail {
+        width: 100px;
+        height: 100px;
+        background: var(--wt-cream);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        cursor: pointer;
+        border: 3px solid var(--border-secondary);
+        transition: all 0.3s;
+      }
+
+      .thumbnail:hover,
+      .thumbnail.active {
+        border-color: var(--border-primary);
+        background: var(--wt-light);
+        transform: scale(1.05);
+      }
+
+      /* Details Section */
+      .details-section {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .breadcrumb {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+      }
+
+      .breadcrumb a {
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+
+      .breadcrumb a:hover {
+        color: var(--color-p);
+      }
+
+      .product-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 15px;
+        line-height: 1.2;
+      }
+
+      .product-rating {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+        padding-bottom: 25px;
+        border-bottom: 2px solid var(--border-secondary);
+      }
+
+      .product-price {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--color-g);
+        margin-bottom: 25px;
+      }
+
+      .product-description {
+        color: var(--text-secondary);
+        line-height: 1.8;
+        font-size: 1.05rem;
+        margin-bottom: 30px;
+      }
+
+      .size-recommendation {
+        background: var(--wt-cream);
+        border: 2px solid var(--border-secondary);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+
+      .size-rec-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+
+      .check-icon {
+        width: 24px;
+        height: 24px;
+        background: var(--color-g);
+        border-radius: 50%;
+        color: var(--wt-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        font-weight: bold;
+      }
+
+      .size-rec-text {
+        font-weight: 700;
+        color: var(--color-g);
+        font-size: 1.1rem;
+      }
+
+      .recommended-size {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--color-g);
+        text-align: center;
+        margin: 10px 0;
+      }
+
+      .confidence-text {
+        text-align: center;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .option-group {
+        margin-bottom: 30px;
+      }
+
+      .option-label {
+        font-weight: 700;
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+        display: block;
+      }
+
+      .color-options {
+        display: flex;
+        gap: 15px;
+      }
+
+      .color-option {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 3px solid transparent;
+        transition: all 0.3s;
+        position: relative;
+      }
+
+      .color-option:hover {
+        transform: scale(1.1);
+      }
+
+      .color-option.selected {
+        border-color: var(--text-primary);
+        box-shadow: 0 0 0 2px var(--wt-light), 0 0 0 5px var(--text-primary);
+      }
+
+      .color-name {
+        position: absolute;
+        bottom: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        white-space: nowrap;
+      }
+
+      .size-options {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .size-option {
+        padding: 15px 25px;
+        border: 2px solid var(--border-secondary);
+        border-radius: 12px;
+        background: var(--wt-cream);
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s;
+      }
+
+      .size-option:hover {
+        border-color: var(--color-g);
+        background: var(--wt-light);
+        transform: translateY(-2px);
+      }
+
+      .size-option.recommended {
+        border-color: var(--color-g);
+        background: #e0f2e9;
+        color: #28a745;
+        position: relative;
+      }
+
+      .size-option.selected {
+        border-color: transparent;
+        background: var(--grad-pg);
+        color: var(--wt-light);
+      }
+
+      .quantity-section {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .qty-controls {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: var(--wt-cream);
+        padding: 8px 15px;
+        border-radius: 12px;
+        border: 2px solid var(--border-secondary);
+      }
+
+      .qty-btn {
+        width: 35px;
+        height: 35px;
+        border: none;
+        background: var(--wt-light);
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 1.2rem;
+        transition: all 0.3s;
+        color: var(--text-secondary);
+      }
+
+      .qty-btn:hover {
+        background: var(--grad-gp);
+        color: var(--wt-light);
+      }
+
+      .qty-display {
+        font-size: 1.2rem;
+        font-weight: 700;
+        min-width: 40px;
+        text-align: center;
+      }
+
+      .action-buttons {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .btn {
+        padding: 18px 30px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background: var(--grad-pg);
+        color: var(--wt-light);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(92, 75, 111, 0.3);
+      }
+
+      .btn-icon {
+        width: 60px;
+        background: #fff8e5;
+        color: #5c4b6f;
+        border: 2px solid #f9f0da;
+        font-size: 1.5rem;
+      }
+
+      .btn-icon:hover {
+        background: white;
+        border-color: #5c4b6f;
+      }
+
+      .product-features {
+        background: var(--wt-cream);
+        padding: 25px;
+        border-radius: 16px;
+        margin-bottom: 30px;
+      }
+
+      .features-title {
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+      }
+
+      .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+        color: var(--text-secondary);
+      }
+
+      .feature-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .feature-icon {
+        color: var(--color-g);
+        font-size: 1.3rem;
+      }
+
+      .product-specs {
+        padding-top: 25px;
+        border-top: 2px solid var(--border-secondary);
+      }
+
+      .specs-title {
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+      }
+
+      .spec-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border-secondary);
+      }
+
+      .spec-row:last-child {
+        border-bottom: none;
+      }
+
+      .spec-label {
+        color: var(--text-secondary);
+        font-weight: 600;
+      }
+
+      .spec-value {
+        color: var(--text-secondary);
+      }
+
+      @media (max-width: 1024px) {
+        .product-layout {
+          grid-template-columns: 1fr;
+          padding: 30px;
+        }
+
+        .main-image {
+          height: 450px;
+          font-size: 10rem;
+        }
+
+        .container {
+          padding: 0 20px 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">PerfectFit</div>
+      <div class="user-info">
+        <nav>
+          <a href="../Main/Home.html">Home</a>
+          <a href="../Main/MeasureUp.html">Measure Up</a>
+          <a href="../Main/Browse.html">Browse</a>
+          <a href="../Main/Closet.html">Closet</a>
+          <div class="user-avatar"></div>
+          <a href="../Main/Login.html">Login</a>
+        </nav>
+      </div>
+    </div>
+    <div class="top">
+      <div class="top-content">
+        <a href="../Main/Browse.html" class="back-btn">← Back to Shop</a>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="product-layout">
+        <!-- Image Section -->
+        <div class="image-section">
+          <div class="main-image" id="mainImage">
+            <img
+              src="../Images/HsShorts.png"
+              alt="High School Shorts Front"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 16px 16px 0 0;
+              "
+            />
+          </div>
+          <div class="thumbnail-gallery">
+            <div
+              class="thumbnail active"
+              onclick="changeImage('../Images/HsShorts.png')"
+            >
+              <img
+                src="../Images/HsShorts.png"
+                alt="High School Shorts Front"
+                style="
+                  width: 90%;
+                  height: 90%;
+                  object-fit: cover;
+                  border-radius: 16px 16px 0 0;
+                "
+              />
+            </div>
+            <div
+              class="thumbnail"
+              onclick="changeImage('../Images/HsShorts2.png')"
+            >
+              <img
+                src="../Images/HsShorts2.png"
+                alt="High School Shorts Back"
+                style="
+                  width: 90%;
+                  height: 90%;
+                  object-fit: cover;
+                  border-radius: 16px 16px 0 0;
+                "
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Details Section -->
+        <div class="details-section">
+          <h1 class="product-title">Dry Fit Short - Men</h1>
+
+          <div class="product-price">$42.99 - $36.99</div>
+
+          <p class="product-description">....</p>
+
+          <div class="size-recommendation">
+            <div class="size-rec-header">
+              <div class="check-icon">✓</div>
+              <span class="size-rec-text">Perfect Match Found!</span>
+            </div>
+            <div class="recommended-size">MEDIUM</div>
+          </div>
+
+          <div class="option-group">
+            <label class="option-label">Size</label>
+            <div class="size-options">
+              <div class="size-option" onclick="selectSize(this)">XS</div>
+              <div class="size-option" onclick="selectSize(this)">S</div>
+              <div
+                class="size-option recommended selected"
+                onclick="selectSize(this)"
+              >
+                M
+              </div>
+              <div class="size-option" onclick="selectSize(this)">L</div>
+              <div class="size-option" onclick="selectSize(this)">XL</div>
+              <div class="size-option" onclick="selectSize(this)">XXL</div>
+            </div>
+          </div>
+
+          <div class="option-group">
+            <label class="option-label">Quantity</label>
+            <div class="quantity-section">
+              <div class="qty-controls">
+                <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                <div class="qty-display" id="quantity">1</div>
+                <button class="qty-btn" onclick="changeQty(1)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button class="btn btn-primary" onclick="addToCart()">
+              Add to Cart
+            </button>
+          </div>
+
+          <div class="product-specs">
+            <div class="specs-title">Product Details</div>
+            <div class="spec-row">
+              <span class="spec-label">Material</span>
+              <span class="spec-value">Dry Fit</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Fit</span>
+              <span class="spec-value">Husky, Regular, or Prep</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Color</span>
+              <span class="spec-value">Khaki</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Price</span>
+              <span class="spec-value">Varies based on size</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let currentQty = 1;
+      let isFavorite = false;
+
+      function changeImage(imagePath) {
+        const mainImg = document.querySelector("#mainImage img");
+        mainImg.src = imagePath;
+
+        document
+          .querySelectorAll(".thumbnail")
+          .forEach((t) => t.classList.remove("active"));
+        event.target.closest(".thumbnail").classList.add("active");
+      }
+
+      function selectColor(element, colorName) {
+        document
+          .querySelectorAll(".color-option")
+          .forEach((c) => c.classList.remove("selected"));
+        element.classList.add("selected");
+        document.getElementById("selectedColor").textContent = colorName;
+      }
+
+      function selectSize(element) {
+        document
+          .querySelectorAll(".size-option")
+          .forEach((s) => s.classList.remove("selected"));
+        element.classList.add("selected");
+      }
+
+      function changeQty(delta) {
+        currentQty = Math.max(1, currentQty + delta);
+        document.getElementById("quantity").textContent = currentQty;
+      }
+
+      function addToCart() {
+        const size = document.querySelector(
+          ".size-option.selected"
+        ).textContent;
+        const color = document.getElementById("selectedColor").textContent;
+        alert(
+          `Added ${currentQty} x Classic Cotton Tee (Size: ${size}, Color: ${color}) to cart!`
+        );
+      }
+
+      function toggleFavorite() {
+        isFavorite = !isFavorite;
+        event.target.style.color = isFavorite ? "#E91E63" : "#5C4B6F";
+        alert(isFavorite ? "Added to favorites! ♥" : "Removed from favorites");
+      }
+    </script>
+  </body>
+</html>

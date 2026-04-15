@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Closet - Perfect Fit</title>
+    <link rel="stylesheet" type="text/css" href="../styles.css" />
+    <style>
+      /* added 3-4-26, style completed 3-6-26 */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+          sans-serif;
+        background: var(--wt-cream);
+        color: var(--text-primary);
+        padding-top: 120px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .top {
+        margin-bottom: 40px;
+      }
+
+      .top h1 {
+        font-size: 2.5rem;
+        background: var(--grad-pg);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+        margin-bottom: 10px;
+      }
+
+      .top-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+      }
+
+      .item-count {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+      }
+
+      .view-toggle {
+        display: flex;
+        gap: 10px;
+      }
+
+      .view-btn {
+        padding: 8px 16px;
+        background: var(--wt-light);
+        border: 2px solid var(--border-primary);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .view-btn:hover,
+      .view-btn.active {
+        background: var(--grad-pg);
+        color: var(--wt-light);
+        border-color: transparent;
+      }
+
+      .main-layout {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+      }
+
+      /* Closet Items Section */
+      .closet-items {
+        background: var(--wt-light);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(92, 75, 111, 0.12);
+        border: 2px solid var(--border-primary);
+      }
+
+      .closet-item {
+        display: grid;
+        grid-template-columns: 120px 1fr auto;
+        gap: 20px;
+        padding: 20px;
+        background: var(--wt-cream);
+        border-radius: 16px;
+        margin-bottom: 20px;
+        border: 2px solid transparent;
+        transition: all 0.3s;
+      }
+
+      .closet-item:hover {
+        border-color: var(--color-g);
+      }
+
+      .item-image {
+        width: 120px;
+        height: 150px;
+        background: transparent;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+      }
+
+      .item-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .item-name {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+      }
+
+      .item-description {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+      }
+
+      .item-meta {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      .meta-label {
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .size-badge {
+        background: var(--grad-gp);
+        color: var(--wt-light);
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+
+      .item-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .action-icon-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        border: 2px solid var(--border-primary);
+        background: var(--wt-cream);
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+      }
+
+      .action-icon-btn:hover {
+        border-color: var(--color-g);
+        background: var(--wt-light);
+      }
+
+      .action-icon-btn.delete:hover {
+        border-color: #e91e63;
+        background: #ffe0ea;
+      }
+
+      /* Summary Sidebar */
+      .closet-summary {
+        background: var(--wt-light);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(92, 75, 111, 0.12);
+        border: 2px solid var(--border-primary);
+        height: fit-content;
+        position: sticky;
+        top: 20px;
+      }
+
+      .summary-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 20px;
+      }
+
+      .summary-stats {
+        background: var(--wt-cream);
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+      }
+
+      .stat-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 0.95rem;
+      }
+
+      .stat-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .stat-label {
+        color: var(--text-secondary);
+      }
+
+      .stat-value {
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .category-breakdown {
+        margin-bottom: 25px;
+      }
+
+      .category-breakdown h3 {
+        font-size: 1.1rem;
+        color: var(--text-primary);
+        margin-bottom: 15px;
+      }
+
+      .category-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px;
+        background: var(--wt-cream);
+        border-radius: 10px;
+        margin-bottom: 10px;
+      }
+
+      .category-name {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-secondary);
+        font-weight: 600;
+      }
+
+      .category-count {
+        background: var(--grad-gp);
+        color: var(--wt-light);
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .btn {
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 1rem;
+      }
+
+      .btn-primary {
+        background: var(--grad-gp);
+        color: var(--wt-light);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(92, 75, 111, 0.3);
+      }
+
+      .btn-secondary {
+        background: var(--wt-cream);
+        color: var(--color-p);
+        border: 2px solid var(--grad-gp);
+      }
+
+      .btn-secondary:hover {
+        background: var(--grad-pg);
+        color: var(--wt-light);
+      }
+
+      .empty-closet {
+        text-align: center;
+        padding: 80px 40px;
+      }
+
+      .empty-icon {
+        font-size: 5rem;
+        margin-bottom: 20px;
+      }
+
+      .empty-closet h3 {
+        font-size: 1.8rem;
+        color: var(--text-primary);
+        margin-bottom: 10px;
+      }
+
+      .empty-closet p {
+        color: var(--text-secondary);
+        margin-bottom: 25px;
+        font-size: 1.1rem;
+      }
+
+      .filter-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+      }
+
+      .filter-chip {
+        padding: 8px 16px;
+        background: var(--wt-cream);
+        border: 2px solid var(--border-secondary);
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 0.9rem;
+      }
+
+      .filter-chip:hover,
+      .filter-chip.active {
+        background: var(--grad-pg);
+        color: var(--wt-light);
+        border-color: transparent;
+      }
+
+      @media (max-width: 968px) {
+        .main-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .closet-summary {
+          position: static;
+        }
+
+        .closet-item {
+          grid-template-columns: 100px 1fr;
+        }
+
+        .item-actions {
+          grid-column: 1 / -1;
+          flex-direction: row;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">PerfectFit</div>
+      <div class="user-info">
+        <nav>
+          <a href="../index.html">Home</a>
+          <a href="MeasureUp.html">Measure Up</a>
+          <a href="Browse.html">Browse</a>
+          <a href="Closet.html">Closet</a>
+          <div class="user-avatar"></div>
+          <a href="Login.html">Login</a>
+        </nav>
+      </div>
+    </div>
+    <div class="container">
+      <div class="top">
+        <h1>My Closet</h1>
+        <div class="top-info">
+          <div class="item-count"><strong>12 items</strong> in your closet</div>
+          <div class="view-toggle">
+            <button class="view-btn active">All Items</button>
+            <button class="view-btn">Favorites</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-layout">
+        <!-- Main Closet Items -->
+        <div class="closet-items">
+          <div class="filter-bar">
+            <div class="filter-chip active">All</div>
+            <div class="filter-chip">Tops</div>
+            <div class="filter-chip">Bottoms</div>
+            <div class="filter-chip">Dresses</div>
+            <div class="filter-chip">Outerwear</div>
+            <div class="filter-chip">Accessories</div>
+          </div>
+
+          <!-- Closet Item 1 -->
+          <div class="closet-item">
+            <div class="item-image">👕</div>
+            <div class="item-details">
+              <div>
+                <div class="item-name">Classic Cotton Tee</div>
+                <div class="item-description">
+                  Soft, breathable cotton in a timeless cut
+                </div>
+              </div>
+              <div class="item-meta">
+                <div class="meta-item">
+                  <span class="meta-label">Size:</span>
+                  <span class="size-badge">M</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Color:</span>
+                  <span>Navy Blue</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Added:</span>
+                  <span>2 days ago</span>
+                </div>
+              </div>
+            </div>
+            <div class="item-actions">
+              <button class="action-icon-btn" title="Try On">👁️</button>
+              <button class="action-icon-btn" title="Favorite">⭐</button>
+              <button class="action-icon-btn delete" title="Remove">🗑️</button>
+            </div>
+          </div>
+
+          <!-- Closet Item 2 -->
+          <div class="closet-item">
+            <div class="item-image">👖</div>
+            <div class="item-details">
+              <div>
+                <div class="item-name">Slim Fit Denim</div>
+                <div class="item-description">
+                  Stretch denim with a modern slim fit
+                </div>
+              </div>
+              <div class="item-meta">
+                <div class="meta-item">
+                  <span class="meta-label">Size:</span>
+                  <span class="size-badge">32x30</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Color:</span>
+                  <span>Dark Wash</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Added:</span>
+                  <span>1 week ago</span>
+                </div>
+              </div>
+            </div>
+            <div class="item-actions">
+              <button class="action-icon-btn" title="Try On">👁️</button>
+              <button class="action-icon-btn" title="Favorite">⭐</button>
+              <button class="action-icon-btn delete" title="Remove">🗑️</button>
+            </div>
+          </div>
+
+          <!-- Closet Item 3 -->
+          <div class="closet-item">
+            <div
+              class="item-image"
+              style="
+                background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+              "
+            >
+              🧥
+            </div>
+            <div class="item-details">
+              <div>
+                <div class="item-name">Cozy Pullover Hoodie</div>
+                <div class="item-description">
+                  Ultra-soft fleece with kangaroo pocket
+                </div>
+              </div>
+              <div class="item-meta">
+                <div class="meta-item">
+                  <span class="meta-label">Size:</span>
+                  <span class="size-badge">M</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Color:</span>
+                  <span>Rose Pink</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Added:</span>
+                  <span>3 days ago</span>
+                </div>
+              </div>
+            </div>
+            <div class="item-actions">
+              <button class="action-icon-btn" title="Try On">👁️</button>
+              <button class="action-icon-btn" title="Favorite">⭐</button>
+              <button class="action-icon-btn delete" title="Remove">🗑️</button>
+            </div>
+          </div>
+
+          <!-- Closet Item 4 -->
+          <div class="closet-item">
+            <div class="item-image">👔</div>
+            <div class="item-details">
+              <div>
+                <div class="item-name">Classic Oxford Shirt</div>
+                <div class="item-description">
+                  Crisp button-down perfect for any occasion
+                </div>
+              </div>
+              <div class="item-meta">
+                <div class="meta-item">
+                  <span class="meta-label">Size:</span>
+                  <span class="size-badge">M</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Color:</span>
+                  <span>White</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Added:</span>
+                  <span>5 days ago</span>
+                </div>
+              </div>
+            </div>
+            <div class="item-actions">
+              <button class="action-icon-btn" title="Try On">👁️</button>
+              <button class="action-icon-btn" title="Favorite">⭐</button>
+              <button class="action-icon-btn delete" title="Remove">🗑️</button>
+            </div>
+          </div>
+
+          <!-- Closet Item 5 -->
+          <div class="closet-item">
+            <div class="item-image">🩳</div>
+            <div class="item-details">
+              <div>
+                <div class="item-name">Athletic Shorts</div>
+                <div class="item-description">
+                  Lightweight, breathable fabric for workouts
+                </div>
+              </div>
+              <div class="item-meta">
+                <div class="meta-item">
+                  <span class="meta-label">Size:</span>
+                  <span class="size-badge">M</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Color:</span>
+                  <span>Forest Green</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Added:</span>
+                  <span>1 day ago</span>
+                </div>
+              </div>
+            </div>
+            <div class="item-actions">
+              <button class="action-icon-btn" title="Try On">👁️</button>
+              <button class="action-icon-btn" title="Favorite">⭐</button>
+              <button class="action-icon-btn delete" title="Remove">🗑️</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary Sidebar -->
+        <div class="closet-summary">
+          <h2 class="summary-title">Closet Summary</h2>
+
+          <div class="summary-stats">
+            <div class="stat-row">
+              <span class="stat-label">Total Items</span>
+              <span class="stat-value">12</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Favorites</span>
+              <span class="stat-value">5</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Recently Added</span>
+              <span class="stat-value">3</span>
+            </div>
+          </div>
+
+          <div class="category-breakdown">
+            <h3>By Category</h3>
+            <div class="category-item">
+              <div class="category-name">
+                <span>👕</span>
+                <span>Tops</span>
+              </div>
+              <div class="category-count">6</div>
+            </div>
+            <div class="category-item">
+              <div class="category-name">
+                <span>👖</span>
+                <span>Bottoms</span>
+              </div>
+              <div class="category-count">3</div>
+            </div>
+            <div class="category-item">
+              <div class="category-name">
+                <span>👗</span>
+                <span>Dresses</span>
+              </div>
+              <div class="category-count">2</div>
+            </div>
+            <div class="category-item">
+              <div class="category-name">
+                <span>🧥</span>
+                <span>Outerwear</span>
+              </div>
+              <div class="category-count">1</div>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button class="btn btn-primary">🛍️ Continue Shopping</button>
+            <button class="btn btn-secondary">📤 Share My Closet</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Filter functionality
+      document.querySelectorAll(".filter-chip").forEach((chip) => {
+        chip.addEventListener("click", function () {
+          document
+            .querySelectorAll(".filter-chip")
+            .forEach((c) => c.classList.remove("active"));
+          this.classList.add("active");
+          alert("Filter by: " + this.textContent);
+        });
+      });
+
+      // View toggle
+      document.querySelectorAll(".view-btn").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          document
+            .querySelectorAll(".view-btn")
+            .forEach((b) => b.classList.remove("active"));
+          this.classList.add("active");
+          alert("View: " + this.textContent);
+        });
+      });
+
+      // Action buttons
+      document.querySelectorAll(".action-icon-btn").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const action = this.getAttribute("title");
+          alert(action + " functionality would be implemented here!");
+        });
+      });
+    </script>
+  </body>
+</html>
