@@ -396,7 +396,9 @@
       <div class="top">
         <h1>My Closet</h1>
         <div class="top-info">
-          <div class="item-count"><strong id="item-count-text">Loading...</strong> in your closet</div>
+          <div class="item-count">
+            <strong id="item-count-text">Loading...</strong> in your closet
+          </div>
           <div class="view-toggle">
             <button class="view-btn active">All Items</button>
             <button class="view-btn">Favorites</button>
@@ -441,84 +443,115 @@
           </div>
 
           <div class="action-buttons">
-            <a href="Browse.html" class="btn btn-primary" style="text-decoration:none;text-align:center;">🛍️ Browse Items</a>
-            <a href="MeasureUp.html" class="btn btn-secondary" style="text-decoration:none;text-align:center;">📏 Get Size Advice</a>
+            <a
+              href="Browse.html"
+              class="btn btn-primary"
+              style="text-decoration: none; text-align: center"
+              >🛍️ Browse Items</a
+            >
+            <a
+              href="MeasureUp.html"
+              class="btn btn-secondary"
+              style="text-decoration: none; text-align: center"
+              >📏 Get Size Advice</a
+            >
           </div>
         </div>
       </div>
     </div>
 
     <script>
-      const STORAGE_KEY = 'perfectfit_closet';
+      const STORAGE_KEY = "perfectfit_closet";
 
       // ── Helpers ──────────────────────────────────────────────────────
       function timeAgo(isoString) {
-        const diff = Math.floor((Date.now() - new Date(isoString).getTime()) / 1000);
-        if (diff < 60)    return 'just now';
-        if (diff < 3600)  return Math.floor(diff / 60) + ' min ago';
-        if (diff < 86400) return Math.floor(diff / 3600) + ' hr ago';
+        const diff = Math.floor(
+          (Date.now() - new Date(isoString).getTime()) / 1000
+        );
+        if (diff < 60) return "just now";
+        if (diff < 3600) return Math.floor(diff / 60) + " min ago";
+        if (diff < 86400) return Math.floor(diff / 3600) + " hr ago";
         const days = Math.floor(diff / 86400);
-        if (days < 7)     return days + ' day' + (days > 1 ? 's' : '') + ' ago';
+        if (days < 7) return days + " day" + (days > 1 ? "s" : "") + " ago";
         return new Date(isoString).toLocaleDateString();
       }
 
       function emojiToCategory(emoji) {
         const map = {
-          '👕': 'Tops', '👔': 'Tops', '🧣': 'Tops',
-          '🩳': 'Bottoms', '👖': 'Bottoms',
-          '👗': 'Dresses / Skirts',
-          '🧥': 'Outerwear',
-          '👟': 'Footwear'
+          "👕": "Tops",
+          "👔": "Tops",
+          "🧣": "Tops",
+          "🩳": "Bottoms",
+          "👖": "Bottoms",
+          "👗": "Dresses / Skirts",
+          "🧥": "Outerwear",
+          "👟": "Footwear",
         };
-        return map[emoji] || 'Other';
+        return map[emoji] || "Other";
       }
 
       // ── Remove item ──────────────────────────────────────────────────
       function removeItem(id) {
-        let closet = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-        closet = closet.filter(item => String(item.id) !== String(id));
+        let closet = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        closet = closet.filter((item) => String(item.id) !== String(id));
         localStorage.setItem(STORAGE_KEY, JSON.stringify(closet));
         renderCloset();
       }
 
       // ── Main render ──────────────────────────────────────────────────
       function renderCloset() {
-        const closet    = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-        const container = document.getElementById('closet-items-container');
+        const closet = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        const container = document.getElementById("closet-items-container");
 
         // Header count
-        const countEl = document.getElementById('item-count-text');
-        if (countEl) countEl.textContent = closet.length + (closet.length === 1 ? ' item' : ' items');
+        const countEl = document.getElementById("item-count-text");
+        if (countEl)
+          countEl.textContent =
+            closet.length + (closet.length === 1 ? " item" : " items");
 
         // Summary stats
-        const statTotal  = document.getElementById('stat-total');
-        const statRecent = document.getElementById('stat-recent');
+        const statTotal = document.getElementById("stat-total");
+        const statRecent = document.getElementById("stat-recent");
         if (statTotal) statTotal.textContent = closet.length;
         if (statRecent) {
-          const recent = closet.filter(i => (Date.now() - new Date(i.addedAt).getTime()) < 7 * 86400 * 1000).length;
+          const recent = closet.filter(
+            (i) => Date.now() - new Date(i.addedAt).getTime() < 7 * 86400 * 1000
+          ).length;
           statRecent.textContent = recent;
         }
 
         // Category breakdown
-        const catIcons = { 'Tops': '👕', 'Bottoms': '👖', 'Dresses / Skirts': '👗', 'Outerwear': '🧥', 'Footwear': '👟', 'Other': '📦' };
+        const catIcons = {
+          Tops: "👕",
+          Bottoms: "👖",
+          "Dresses / Skirts": "👗",
+          Outerwear: "🧥",
+          Footwear: "👟",
+          Other: "📦",
+        };
         const catCounts = {};
-        closet.forEach(item => {
+        closet.forEach((item) => {
           const cat = emojiToCategory(item.emoji);
           catCounts[cat] = (catCounts[cat] || 0) + 1;
         });
-        const catContainer = document.getElementById('category-breakdown-list');
+        const catContainer = document.getElementById("category-breakdown-list");
         if (catContainer) {
           if (Object.keys(catCounts).length === 0) {
-            catContainer.innerHTML = '<p style="color:var(--text-secondary);font-size:0.9rem;padding:4px 0;">No items yet.</p>';
+            catContainer.innerHTML =
+              '<p style="color:var(--text-secondary);font-size:0.9rem;padding:4px 0;">No items yet.</p>';
           } else {
-            catContainer.innerHTML = Object.entries(catCounts).map(([cat, count]) => `
+            catContainer.innerHTML = Object.entries(catCounts)
+              .map(
+                ([cat, count]) => `
               <div class="category-item">
                 <div class="category-name">
-                  <span>${catIcons[cat] || '📦'}</span>
+                  <span>${catIcons[cat] || "📦"}</span>
                   <span>${cat}</span>
                 </div>
                 <div class="category-count">${count}</div>
-              </div>`).join('');
+              </div>`
+              )
+              .join("");
           }
         }
 
@@ -537,12 +570,16 @@
         }
 
         // Render items
-        container.innerHTML = closet.map(item => `
+        container.innerHTML = closet
+          .map(
+            (item) => `
           <div class="closet-item">
             <div class="item-image" style="overflow:hidden;border-radius:12px;background:var(--wt-light);">
-              ${item.image
-                ? `<img src="${item.image}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;">`
-                : `<span style="font-size:4rem;">${item.emoji || '👕'}</span>`}
+              ${
+                item.image
+                  ? `<img src="${item.image}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;">`
+                  : `<span style="font-size:4rem;">${item.emoji || "👕"}</span>`
+              }
             </div>
             <div class="item-details">
               <div>
@@ -562,22 +599,28 @@
               <button class="action-icon-btn delete" title="Remove from Closet"
                       onclick="removeItem('${item.id}')">🗑️</button>
             </div>
-          </div>`).join('');
+          </div>`
+          )
+          .join("");
       }
 
       // ── Filter chips (visual) ────────────────────────────────────────
-      document.querySelectorAll('.filter-chip').forEach(chip => {
-        chip.addEventListener('click', function () {
-          document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-          this.classList.add('active');
+      document.querySelectorAll(".filter-chip").forEach((chip) => {
+        chip.addEventListener("click", function () {
+          document
+            .querySelectorAll(".filter-chip")
+            .forEach((c) => c.classList.remove("active"));
+          this.classList.add("active");
         });
       });
 
       // ── View toggle (visual) ─────────────────────────────────────────
-      document.querySelectorAll('.view-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-          document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-          this.classList.add('active');
+      document.querySelectorAll(".view-btn").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          document
+            .querySelectorAll(".view-btn")
+            .forEach((b) => b.classList.remove("active"));
+          this.classList.add("active");
         });
       });
 
