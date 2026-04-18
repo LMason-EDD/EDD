@@ -363,6 +363,10 @@
               </div>
               <div class="recommended-size">MEDIUM</div>
             </a>
+            <button class="add-to-cart" data-name="Dry Fit Short - Men"
+              onclick="addToCloset(this, 'Dry Fit Short - Men', 'The King\'s Academy', null, '🩳', '../Images/HsShorts.png')">
+              🏷️ Save to Closet
+            </button>
           </div>
         </div>
 
@@ -406,6 +410,10 @@
               </div>
               <div class="recommended-size">MEDIUM</div>
             </a>
+            <button class="add-to-cart" data-name="Elderwear High School Skort"
+              onclick="addToCloset(this, 'Elderwear High School Skort', 'The King\'s Academy', null, '👗', '../Images/HsSkirtB.png')">
+              🏷️ Save to Closet
+            </button>
           </div>
         </div>
 
@@ -449,6 +457,10 @@
               </div>
               <div class="recommended-size">MEDIUM</div>
             </a>
+            <button class="add-to-cart" data-name="Elderwear Short Sleeve Dry Fit Polo"
+              onclick="addToCloset(this, 'Elderwear Short Sleeve Dry Fit Polo', 'School Store Dry Fit Polo', 'schoolstore', '👕', '../Images/ShirtBF.png')">
+              🏷️ Save to Closet
+            </button>
           </div>
         </div>
 
@@ -495,6 +507,10 @@
               </div>
               <div class="recommended-size">MEDIUM</div>
             </a>
+            <button class="add-to-cart" data-name="HeatGear® Men's Compression Short Sleeve"
+              onclick="addToCloset(this, 'HeatGear® Men\'s Compression Short Sleeve', 'Under Armour', 'underarmour', '👕', '../Images/UAShirtComp.png')">
+              🏷️ Save to Closet
+            </button>
           </div>
         </div>
 
@@ -539,6 +555,10 @@
               </div>
               <div class="recommended-size">MEDIUM</div>
             </a>
+            <button class="add-to-cart" data-name="HeatGear® Fitted Men's Short Sleeve"
+              onclick="addToCloset(this, 'HeatGear® Fitted Men\'s Short Sleeve', 'Under Armour', 'underarmour', '👕', '../Images/UAShirtFit.png')">
+              🏷️ Save to Closet
+            </button>
           </div>
         </div>
 
@@ -582,6 +602,10 @@
               </div>
               <div class="recommended-size">MEDIUM</div>
             </a>
+            <button class="add-to-cart" data-name="UA Tech™ 2.0"
+              onclick="addToCloset(this, 'UA Tech™ 2.0', 'Under Armour', 'underarmour', '👕', '../Images/UAShirtLoose.png')">
+              🏷️ Save to Closet
+            </button>
           </div>
         </div>
 
@@ -625,6 +649,10 @@
               </div>
               <div class="recommended-size">MEDIUM</div>
             </a>
+            <button class="add-to-cart" data-name="Workout Essentials Feelready T-Shirt"
+              onclick="addToCloset(this, 'Workout Essentials Feelready T-Shirt', 'Adidas', 'adidas', '👕', '../Images/AdidasShirt.png')">
+              🏷️ Save to Closet
+            </button>
           </div>
         </div>
 
@@ -668,6 +696,10 @@
               </div>
               <div class="recommended-size">MEDIUM</div>
             </a>
+            <button class="add-to-cart" data-name="Manchester City x Year of the Horse"
+              onclick="addToCloset(this, 'Manchester City x Year of the Horse', 'Puma', 'puma', '👕', '../Images/PumaShirt.png')">
+              🏷️ Save to Closet
+            </button>
           </div>
         </div>
 
@@ -711,6 +743,10 @@
               </div>
               <div class="recommended-size">MEDIUM</div>
             </a>
+            <button class="add-to-cart" data-name="Nike Stride"
+              onclick="addToCloset(this, 'Nike Stride', 'Nike', 'nike', '👟', '../Images/NikeShirt.png')">
+              🏷️ Save to Closet
+            </button>
           </div>
         </div>
       </div>
@@ -720,12 +756,49 @@
       // Size selector functionality
       document.querySelectorAll(".size-option").forEach((option) => {
         option.addEventListener("click", function () {
-          // Remove selected class from siblings
           this.parentElement.querySelectorAll(".size-option").forEach((opt) => {
             opt.classList.remove("selected");
           });
-          // Add selected class to clicked option
           this.classList.add("selected");
+        });
+      });
+
+      // ── Closet helpers ─────────────────────────────
+      function addToCloset(btn, name, brand, brandKey, emoji, image) {
+        const closet = JSON.parse(localStorage.getItem('perfectfit_closet') || '[]');
+        if (closet.some(item => item.name === name)) {
+          showToast('Already in your closet!', false);
+          return;
+        }
+        closet.push({ id: Date.now(), name, brand, brandKey, emoji, image, addedAt: new Date().toISOString() });
+        localStorage.setItem('perfectfit_closet', JSON.stringify(closet));
+        btn.textContent = '✓ Saved!';
+        btn.disabled = true;
+        btn.style.background = 'var(--color-g)';
+        showToast('Added to your closet!');
+      }
+
+      function showToast(msg, success = true) {
+        const toast = document.createElement('div');
+        toast.textContent = msg;
+        toast.style.cssText = `position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
+          background:${success ? '#2B8C5F' : '#7E4F8C'};color:#fff;padding:12px 28px;
+          border-radius:50px;font-weight:600;z-index:9999;
+          box-shadow:0 4px 15px rgba(0,0,0,0.2);font-size:0.95rem;
+          transition:opacity 0.3s;`;
+        document.body.appendChild(toast);
+        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 2200);
+      }
+
+      // Mark already-saved items on page load
+      window.addEventListener('DOMContentLoaded', () => {
+        const closet = JSON.parse(localStorage.getItem('perfectfit_closet') || '[]');
+        document.querySelectorAll('.add-to-cart[data-name]').forEach(btn => {
+          if (closet.some(item => item.name === btn.dataset.name)) {
+            btn.textContent = '✓ Saved!';
+            btn.disabled = true;
+            btn.style.background = 'var(--color-g)';
+          }
         });
       });
     </script>
